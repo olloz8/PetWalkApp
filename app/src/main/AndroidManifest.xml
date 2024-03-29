@@ -13,7 +13,7 @@
         android:theme="@style/Theme.Pet_management"
         tools:targetApi="31">
         <activity
-            android:name=".HomeActivity"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"
@@ -24,7 +24,7 @@
             android:exported="false"
             android:theme="@style/SplashTheme" />
         <activity
-            android:name=".MainActivity"
+            android:name=".HomeActivity"
             android:exported="true"
             android:theme="@style/SplashTheme">
             <intent-filter>
