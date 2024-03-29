@@ -151,6 +151,7 @@
         android:ems="10"
         android:hint="이름"
         android:inputType="text"
+        android:privateImeOptions="defaultInputmode=korean"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.202"
         app:layout_constraintStart_toEndOf="@+id/textView2"

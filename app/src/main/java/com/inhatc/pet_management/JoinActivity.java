@@ -29,7 +29,7 @@ public class JoinActivity extends AppCompatActivity {
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences inputId = getSharedPreferences("Login", MODE_PRIVATE);
+                SharedPreferences inputId = getSharedPreferences("Join", MODE_PRIVATE);
                 SharedPreferences.Editor editor = inputId.edit();
                 editor.putString("id", et_id.getText().toString());
                 editor.putString("pw", et_pass.getText().toString());

@@ -32,10 +32,10 @@ public class MainActivity extends AppCompatActivity {
                 String ID = et_id.getText().toString();
                 String PW = et_pass.getText().toString();
 
-                SharedPreferences outId = getSharedPreferences("Login", MODE_PRIVATE);
+                SharedPreferences outId = getSharedPreferences("Join", MODE_PRIVATE);
                 String inputId = outId.getString("id", "");
 
-                SharedPreferences outPw = getSharedPreferences("Login", MODE_PRIVATE);
+                SharedPreferences outPw = getSharedPreferences("Join", MODE_PRIVATE);
                 String inputPw = outPw.getString("pw", "");
 
                 if (ID.equals(inputId) == true && PW.equals(inputPw) == true) {
