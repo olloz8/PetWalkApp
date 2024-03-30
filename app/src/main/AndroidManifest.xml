@@ -20,11 +20,11 @@
             android:exported="false"
             android:theme="@style/SplashTheme" />
         <activity
-            android:name=".JoinActivity"
+            android:name=".HomeActivity"
             android:exported="false"
             android:theme="@style/SplashTheme" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".JoinActivity"
             android:exported="true"
             android:theme="@style/SplashTheme">
             <intent-filter>

@@ -2,10 +2,12 @@ package com.inhatc.pet_management;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,7 +45,7 @@ public class JoinActivity extends AppCompatActivity {
             }
         });
 
-    Button btn_back = (Button)findViewById(R.id.btn_back);
+    ImageView btn_back = (ImageView) findViewById(R.id.btn_back);
         btn_back.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
