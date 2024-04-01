@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,10 +29,12 @@ public class JoinActivity extends AppCompatActivity {
         EditText et_birth = (EditText) findViewById(R.id.et_birth);
         EditText et_email = (EditText) findViewById(R.id.et_email);
         Button btn_register = (Button) findViewById(R.id.btn_register);
+        Button btn_idcheck = (Button) findViewById(R.id.btn_idcheck);
+
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences inputId = getSharedPreferences("Join", MODE_PRIVATE);
+                SharedPreferences inputId = getSharedPreferences("UserInfo", MODE_PRIVATE);
                 SharedPreferences.Editor editor = inputId.edit();
                 editor.putString("id", et_id.getText().toString());
                 editor.putString("pw", et_pass.getText().toString());
@@ -45,12 +48,32 @@ public class JoinActivity extends AppCompatActivity {
             }
         });
 
-    ImageView btn_back = (ImageView) findViewById(R.id.btn_back);
+        //아이디 중복 체크
+        btn_idcheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences inputId = getSharedPreferences("UserInfo", MODE_PRIVATE);
+                String saveId = inputId.getString("id", "");
+                String enterId = et_id.getText().toString().trim();
+
+                if (saveId.equals(enterId)) {
+                    Toast.makeText(JoinActivity.this, "이미 사용중인 아이디입니다.", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(JoinActivity.this, "사용 가능한 아이디입니다.", Toast.LENGTH_SHORT).show();
+
+
+                }
+            }
+        });
+
+        //뒤로가기
+        ImageView btn_back = (ImageView) findViewById(R.id.btn_back);
         btn_back.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent intent2 = new Intent(JoinActivity.this,MainActivity.class);
-            startActivity(intent2);
+            @Override
+            public void onClick(View view) {
+                Intent intent2 = new Intent(JoinActivity.this, MainActivity.class);
+                startActivity(intent2);
             }
         });
     }

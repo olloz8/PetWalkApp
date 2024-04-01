@@ -32,10 +32,16 @@ public class MainActivity extends AppCompatActivity {
                 String ID = et_id.getText().toString();
                 String PW = et_pass.getText().toString();
 
-                SharedPreferences outId = getSharedPreferences("Join", MODE_PRIVATE);
+                // 아이디와 비밀번호를 입력하지 않은 경우
+                if (ID.isEmpty() || PW.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "아이디와 비밀번호를 입력하세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                SharedPreferences outId = getSharedPreferences("UserInfo", MODE_PRIVATE);
                 String inputId = outId.getString("id", "");
 
-                SharedPreferences outPw = getSharedPreferences("Join", MODE_PRIVATE);
+                SharedPreferences outPw = getSharedPreferences("UserInfo", MODE_PRIVATE);
                 String inputPw = outPw.getString("pw", "");
 
                 if (ID.equals(inputId) == true && PW.equals(inputPw) == true) {
