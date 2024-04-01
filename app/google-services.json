@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "961801777317",
+    "project_id": "petmanagement-6f9a7",
+    "storage_bucket": "petmanagement-6f9a7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:961801777317:android:6580abc382728cb3f4dd4c",
+        "android_client_info": {
+          "package_name": "com.inhatc.pet_management"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKVWuInkz9kx6gUmixdfJCBfHhKsCj5zc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
