@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "961801777317",
-    "project_id": "petmanagement-6f9a7",
-    "storage_bucket": "petmanagement-6f9a7.appspot.com"
+    "project_number": "547148461097",
+    "firebase_url": "https://petmanagement-a6a4a-default-rtdb.firebaseio.com",
+    "project_id": "petmanagement-a6a4a",
+    "storage_bucket": "petmanagement-a6a4a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:961801777317:android:6580abc382728cb3f4dd4c",
+        "mobilesdk_app_id": "1:547148461097:android:70cde09505c0e29811d838",
         "android_client_info": {
           "package_name": "com.inhatc.pet_management"
         }
@@ -15,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDKVWuInkz9kx6gUmixdfJCBfHhKsCj5zc"
+          "current_key": "AIzaSyAoiFrIxpAcnUlJD7sH5Xo7-Hwi3MsdOvM"
         }
       ],
       "services": {
