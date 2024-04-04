@@ -12,10 +12,17 @@
         android:layout_height="72dp"
         app:srcCompat="@drawable/ic_main" />
 
+    <ImageView
+        android:id="@+id/pet_add"
+        android:layout_width="52dp"
+        android:layout_height="72dp"
+        app:srcCompat="@drawable/ic_add" />
+
     <TextView
         android:id="@+id/txt_mypage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
         android:textSize="40sp" />
+
 </LinearLayout>
