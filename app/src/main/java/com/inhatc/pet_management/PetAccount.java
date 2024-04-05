@@ -2,21 +2,29 @@ package com.inhatc.pet_management;
 
 public class PetAccount {
 
-    private String idToken;
-    private String pname;
-    private String pbirth;
-    private String pspecies;
-    private String petimage;
+    private String petId;       //번호
+    private String pname;       //반려동물 이름
+    private String pbirth;      //반려동물 생년월일
+    private String pspecies;    //반려동물 종
+    private String imgUrl;     //반려동물 이미지
 
     public PetAccount() {
     }
 
-    public String getIdToken() {
-        return idToken;
+    public String getImgUrl() {
+        return imgUrl;
     }
 
-    public void setIdToken(String idToken) {
-        this.idToken = idToken;
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public String getPetId() {
+        return petId;
+    }
+
+    public void setPetId(String petId) {
+        this.petId = petId;
     }
 
     public String getPname() {
@@ -43,11 +51,5 @@ public class PetAccount {
         this.pspecies = pspecies;
     }
 
-    public String getPetimage() {
-        return petimage;
-    }
 
-    public void setPetimage(String petimage) {
-        this.petimage = petimage;
-    }
 }

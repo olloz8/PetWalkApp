@@ -2,10 +2,13 @@ package com.inhatc.pet_management;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 public class SplashActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,6 +17,8 @@ public class SplashActivity extends AppCompatActivity {
 
         moveMain(5);	//1초 후 main activity 로 넘어감
     }
+
+
 
     private void moveMain(int sec) {
         new Handler().postDelayed(new Runnable()
@@ -29,5 +34,7 @@ public class SplashActivity extends AppCompatActivity {
                 finish();	//현재 액티비티 종료
             }
         }, 1000 * sec); // sec초 정도 딜레이를 준 후 시작
+
+        Log.v("SDK Version : ", "SDK_INT" + Build.VERSION.SDK_INT);
     }
 }

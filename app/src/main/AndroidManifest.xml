@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <!-- 미디어 접근 권한 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
-    <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
 
     <application
         android:allowBackup="true"
@@ -16,6 +16,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Pet_management"
         tools:targetApi="31">
+
+        <activity android:name=".Mypage"
+            android:exported="false"
+            android:theme="@style/SplashTheme"/>
+
+        <activity android:name=".Record"
+            android:exported="false"
+            android:theme="@style/SplashTheme"/>
+
+        <activity android:name=".Walk"
+            android:exported="false"
+            android:theme="@style/SplashTheme"/>
 
         <activity
             android:name=".RegisterActivity"
