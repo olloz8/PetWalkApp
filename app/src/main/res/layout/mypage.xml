@@ -26,9 +26,4 @@
         android:text=""
         android:textSize="16sp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/pet_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
 </LinearLayout>
