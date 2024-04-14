@@ -92,8 +92,9 @@
         android:layout_marginTop="68dp"
         android:background="#BAB5B5"
         android:text="등록"
-        app:layout_constraintTop_toBottomOf="@+id/pet_species"
-        tools:layout_editor_absoluteX="100dp" />
+        app:layout_constraintEnd_toEndOf="@+id/pet_species"
+        app:layout_constraintStart_toStartOf="@+id/pet_species"
+        app:layout_constraintTop_toBottomOf="@+id/pet_species" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

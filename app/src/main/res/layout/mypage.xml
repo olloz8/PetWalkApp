@@ -16,6 +16,7 @@
         android:id="@+id/pet_add"
         android:layout_width="52dp"
         android:layout_height="72dp"
+        android:layout_gravity="end"
         app:srcCompat="@drawable/ic_add" />
 
     <TextView
@@ -23,6 +24,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
-        android:textSize="40sp" />
+        android:textSize="16sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/pet_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

@@ -38,7 +38,7 @@ public class PetInfo extends AppCompatActivity {
     private FirebaseStorage mFirebaseStorage; //파이어베이스 이미지 저장
     private EditText mEtName, mEtBirth, mEtSpecies ; //펫 정보 입력필드
     private Button mBtnPetAdd; //반려동물 추가 버튼
-    private String petId;
+
 
     private ImageView pet_image; //이미지 등록
     private Uri mImageUri;
