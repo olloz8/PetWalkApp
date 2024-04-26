@@ -1,6 +1,7 @@
 package com.inhatc.pet_management;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,9 +41,12 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder> {
         Glide.with(holder.itemView)
                 .load(arrayList.get(position).getImgUrl())
                 .into(holder.pet_image);
-        holder.pet_name.setText(arrayList.get(position).getPname());
-        holder.pet_birth.setText(arrayList.get(position).getPbirth());
-        holder.pet_species.setText(arrayList.get(position).getPspecies());
+        Log.d("PetAdapter", "Name: " + arrayList.get(position).getName());
+        Log.d("PetAdapter", "Birth: " + arrayList.get(position).getBirth());
+        Log.d("PetAdapter", "Species: " + arrayList.get(position).getSpecies());
+        holder.pet_name.setText(arrayList.get(position).getName());
+        holder.pet_birth.setText(arrayList.get(position).getBirth());
+        holder.pet_species.setText(arrayList.get(position).getSpecies());
     }
 
     @Override

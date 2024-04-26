@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -77,6 +78,8 @@ public class PetInfo extends AppCompatActivity {
                 petRef.child("uid").setValue(mFirebaseAuth.getCurrentUser().getUid()); // 현재 사용자의 UID 저장
 
                 Toast.makeText(PetInfo.this, "반려동물 정보가 추가되었습니다.", Toast.LENGTH_SHORT).show();
+
+
 
                 // 이미지가 선택되었는지 확인 후 Firebase Storage에 업로드
                 if (mImageUri != null) {

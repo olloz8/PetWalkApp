@@ -2,9 +2,9 @@ package com.inhatc.pet_management;
 
 public class PetAccount {
 
-    private String pname;       //반려동물 이름
-    private String pbirth;      //반려동물 생년월일
-    private String pspecies;    //반려동물 종
+    private String name;       //반려동물 이름
+    private String birth;      //반려동물 생년월일
+    private String species;    //반려동물 종
     private String imgUrl;     //반려동물 이미지
 
     public PetAccount() {
@@ -18,29 +18,27 @@ public class PetAccount {
         this.imgUrl = imgUrl;
     }
 
-    public String getPname() {
-        return pname;
+    public String getName() {
+        return name;
     }
 
-    public void setPname(String pname) {
-        this.pname = pname;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getPbirth() {
-        return pbirth;
+    public String getBirth() {
+        return birth;
     }
 
-    public void setPbirth(String pbirth) {
-        this.pbirth = pbirth;
+    public void setBirth(String birth) {
+        this.birth = birth;
     }
 
-    public String getPspecies() {
-        return pspecies;
+    public String getSpecies() {
+        return species;
     }
 
-    public void setPspecies(String pspecies) {
-        this.pspecies = pspecies;
+    public void setSpecies(String species) {
+        this.species = species;
     }
-
-
 }

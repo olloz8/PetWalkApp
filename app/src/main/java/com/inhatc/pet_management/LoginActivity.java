@@ -39,30 +39,30 @@ public class LoginActivity extends AppCompatActivity {
 
         Button btn_login = findViewById(R.id.btn_login);
         btn_login.setOnClickListener(new View.OnClickListener() {
-                                         @Override
-                                         public void onClick(View v) {
-                                             //로그인 요청
-                                             String strEmail = mEtEmail.getText().toString();
-                                             String strPwd = mEtPwd.getText().toString();
+            @Override
+            public void onClick(View v) {
+                //로그인 요청
+                String strEmail = mEtEmail.getText().toString();
+                String strPwd = mEtPwd.getText().toString();
 
-                                             mFirebaseAuth.signInWithEmailAndPassword(strEmail, strPwd).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                                                 @Override
-                                                 public void onComplete(@NonNull Task<AuthResult> task) {
-                                                    if (task.isSuccessful()) {
-                                                        //로그인 성공
-                                                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                                                        startActivity(intent);
-                                                        finish(); //현재 액티비티 파괴
-                                                    } else {
-                                                        //로그인 실패
-                                                        Toast.makeText(LoginActivity.this, "로그인에 실패하셨습니다.", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                 }
-                                             });
-                                         }
-                                     });
+                mFirebaseAuth.signInWithEmailAndPassword(strEmail, strPwd).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            //로그인 성공
+                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                            startActivity(intent);
+                            finish(); //현재 액티비티 파괴
+                        } else {
+                            //로그인 실패
+                            Toast.makeText(LoginActivity.this, "로그인에 실패하셨습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
 
-                Button btn_register = findViewById(R.id.btn_register);
+        Button btn_register = findViewById(R.id.btn_register);
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

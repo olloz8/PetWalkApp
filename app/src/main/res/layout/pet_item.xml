@@ -2,12 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
-
-    <LinearLayout
-        android:orientation="vertical" android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,26 +28,36 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:text="이름" />
+                    android:text="이름"
+                    android:textSize="16sp"
+                    android:textColor="#000"/>
 
                 <TextView
                     android:id="@+id/pet_birth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:text="생년월일" />
+                    android:text="생년월일"
+                    android:textSize="14sp"
+                    android:textColor="#444"/>
 
                 <TextView
                     android:id="@+id/pet_species"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:text="종" />
+                    android:text="종"
+                    android:textSize="14sp"
+                    android:textColor="#444"/>
 
             </LinearLayout>
 
-        </LinearLayout>
-
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="10dp"
+        android:background="#aaa"/>
 
 </LinearLayout>

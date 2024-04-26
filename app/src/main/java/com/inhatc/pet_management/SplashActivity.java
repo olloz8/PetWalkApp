@@ -15,7 +15,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);	//theme로 지정했다면 삭제한다.
 
-        moveMain(5);	//1초 후 main activity 로 넘어감
+        moveMain(2);	//1초 후 main activity 로 넘어감
     }
 
 

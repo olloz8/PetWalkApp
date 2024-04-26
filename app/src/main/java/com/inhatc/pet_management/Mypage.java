@@ -34,13 +34,13 @@ public class Mypage extends Fragment {
     private ArrayList<PetAccount> arrayList;
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
-    private View view;
+
     private TextView txt_mypage;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.mypage, container, false);
+        View view = inflater.inflate(R.layout.mypage, container, false);
 
         txt_mypage = view.findViewById(R.id.txt_mypage);
 
@@ -49,9 +49,8 @@ public class Mypage extends Fragment {
 
         if (currentUser != null) {
             String userId = currentUser.getUid();
-            DatabaseReference userPetsRef = FirebaseDatabase.getInstance().getReference("pet_management")
-                    .child("UserAccount").child(userId).child("pets"); // 해당 사용자의 펫 정보가 있는 경로
-            userPetsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("pet_management").child("UserAccount").child(userId);
+            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
@@ -60,32 +59,18 @@ public class Mypage extends Fragment {
                             txt_mypage.setText(username + "님의 반려동물");
                         }
                     }
-                    arrayList.clear();
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        PetAccount petAccount = snapshot.getValue(PetAccount.class);
-                        arrayList.add(petAccount);
-                    }
-                    adapter.notifyDataSetChanged();
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.e("Mypage", "데이터베이스 오류: " + databaseError.getMessage());
+                    // 에러 처리
+                    Toast.makeText(getContext(), "데이터베이스 오류: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
 
-        ImageView pet_add = view.findViewById(R.id.pet_add);
-        pet_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), PetInfo.class);
-                startActivity(intent);
-            }
-        });
 
-        // RecyclerView 설정
-        recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -93,7 +78,7 @@ public class Mypage extends Fragment {
 
         // Firebase 데이터베이스 연동
         database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("pet_management").child("PetAccount");// 반려동물 데이터 위치 수정
+        databaseReference = database.getReference("pet_management").child("PetAccount");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -105,13 +90,26 @@ public class Mypage extends Fragment {
                 adapter.notifyDataSetChanged();
             }
 
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+
                 Log.e("Mypage", String.valueOf(databaseError.toException()));
             }
         });
-        adapter = new PetAdapter(arrayList, getContext()); // 커스텀 어댑터 사용
+
+        adapter = new PetAdapter(arrayList, getActivity());
         recyclerView.setAdapter(adapter);
+
+
+        ImageView pet_add = view.findViewById(R.id.pet_add);
+        pet_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), PetInfo.class);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
