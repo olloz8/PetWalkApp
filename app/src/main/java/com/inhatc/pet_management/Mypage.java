@@ -2,6 +2,7 @@ package com.inhatc.pet_management;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -21,8 +24,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 public class Mypage extends Fragment {
 
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+    private ArrayList<PetAccount> arrayList;
+    private FirebaseDatabase database;
+    private DatabaseReference databaseReference;
     private View view;
     private TextView txt_mypage;
 
@@ -38,8 +49,9 @@ public class Mypage extends Fragment {
 
         if (currentUser != null) {
             String userId = currentUser.getUid();
-            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("pet_management").child("UserAccount").child(userId);
-            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            DatabaseReference userPetsRef = FirebaseDatabase.getInstance().getReference("pet_management")
+                    .child("UserAccount").child(userId).child("pets"); // 해당 사용자의 펫 정보가 있는 경로
+            userPetsRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
@@ -48,12 +60,17 @@ public class Mypage extends Fragment {
                             txt_mypage.setText(username + "님의 반려동물");
                         }
                     }
+                    arrayList.clear();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        PetAccount petAccount = snapshot.getValue(PetAccount.class);
+                        arrayList.add(petAccount);
+                    }
+                    adapter.notifyDataSetChanged();
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    // 에러 처리
-                    Toast.makeText(getContext(), "데이터베이스 오류: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("Mypage", "데이터베이스 오류: " + databaseError.getMessage());
                 }
             });
         }
@@ -66,6 +83,35 @@ public class Mypage extends Fragment {
                 startActivity(intent);
             }
         });
+
+        // RecyclerView 설정
+        recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        arrayList = new ArrayList<>();
+
+        // Firebase 데이터베이스 연동
+        database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference("pet_management").child("PetAccount");// 반려동물 데이터 위치 수정
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                arrayList.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    PetAccount petAccount = snapshot.getValue(PetAccount.class);
+                    arrayList.add(petAccount);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("Mypage", String.valueOf(databaseError.toException()));
+            }
+        });
+        adapter = new PetAdapter(arrayList, getContext()); // 커스텀 어댑터 사용
+        recyclerView.setAdapter(adapter);
 
         return view;
     }
