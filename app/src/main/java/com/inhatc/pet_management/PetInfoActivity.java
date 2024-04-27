@@ -5,35 +5,27 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-
-import java.io.File;
 
 
-public class PetInfo extends AppCompatActivity {
+public class PetInfoActivity extends AppCompatActivity {
 
     private FirebaseAuth mFirebaseAuth; // 파이어베이스 인증 처리
     private DatabaseReference mDatabaseRef; //실시간 데이터 베이스
@@ -77,8 +69,10 @@ public class PetInfo extends AppCompatActivity {
                 petRef.child("species").setValue(strPetSpecies);
                 petRef.child("uid").setValue(mFirebaseAuth.getCurrentUser().getUid()); // 현재 사용자의 UID 저장
 
-                Toast.makeText(PetInfo.this, "반려동물 정보가 추가되었습니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PetInfoActivity.this, "반려동물 정보가 추가되었습니다.", Toast.LENGTH_SHORT).show();
 
+                Intent intent = new Intent(PetInfoActivity.this, PetActivity.class);
+                startActivity(intent);
 
 
                 // 이미지가 선택되었는지 확인 후 Firebase Storage에 업로드
@@ -96,12 +90,12 @@ public class PetInfo extends AppCompatActivity {
                             imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
                                 // 다운로드 URL을 받아옴
                                 mDatabaseRef.child("PetAccount").child(petId).child("imgUrl").setValue(uri.toString());
-                                Toast.makeText(PetInfo.this, "이미지가 업로드되었습니다.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PetInfoActivity.this, "이미지가 업로드되었습니다.", Toast.LENGTH_SHORT).show();
                             });
                         })
                         .addOnFailureListener(e -> {
                             // 이미지 업로드 실패 시
-                            Toast.makeText(PetInfo.this, "이미지 업로드에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PetInfoActivity.this, "이미지 업로드에 실패했습니다.", Toast.LENGTH_SHORT).show();
                         });
             }
         });
@@ -166,7 +160,7 @@ public class PetInfo extends AppCompatActivity {
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(PetInfo.this, Mypage.class);
+                Intent intent = new Intent(PetInfoActivity.this, PetActivity.class);
                 startActivity(intent);
             }
         });

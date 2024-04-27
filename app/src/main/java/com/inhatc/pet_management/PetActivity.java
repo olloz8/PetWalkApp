@@ -1,18 +1,16 @@
 package com.inhatc.pet_management;
 
-import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,7 +24,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class Mypage extends Fragment {
+
+public class PetActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
@@ -34,15 +33,14 @@ public class Mypage extends Fragment {
     private ArrayList<PetAccount> arrayList;
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
+    private TextView txt_name;
 
-    private TextView txt_mypage;
-
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.mypage, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_pet);
 
-        txt_mypage = view.findViewById(R.id.txt_mypage);
+        txt_name = findViewById(R.id.txt_mypage);
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -56,7 +54,7 @@ public class Mypage extends Fragment {
                     if (dataSnapshot.exists()) {
                         String username = dataSnapshot.child("name").getValue(String.class);
                         if (username != null) {
-                            txt_mypage.setText(username + "님의 반려동물");
+                            txt_name.setText(username + "님의 반려동물");
                         }
                     }
                 }
@@ -64,15 +62,14 @@ public class Mypage extends Fragment {
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     // 에러 처리
-                    Toast.makeText(getContext(), "데이터베이스 오류: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PetActivity.this, "데이터베이스 오류: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
 
-
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(getContext());
+        layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         arrayList = new ArrayList<>();
 
@@ -90,27 +87,19 @@ public class Mypage extends Fragment {
                 adapter.notifyDataSetChanged();
             }
 
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                Log.e("Mypage", String.valueOf(databaseError.toException()));
+                Log.e("MypageActivity", String.valueOf(databaseError.toException()));
             }
         });
 
-        adapter = new PetAdapter(arrayList, getActivity());
+        adapter = new PetAdapter(arrayList, this);
         recyclerView.setAdapter(adapter);
 
-
-        ImageView pet_add = view.findViewById(R.id.pet_add);
-        pet_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), PetInfo.class);
-                startActivity(intent);
-            }
+        ImageView pet_add = findViewById(R.id.pet_add);
+        pet_add.setOnClickListener(view -> {
+            Intent intent = new Intent(PetActivity.this, PetInfoActivity.class);
+            startActivity(intent);
         });
-
-        return view;
     }
 }

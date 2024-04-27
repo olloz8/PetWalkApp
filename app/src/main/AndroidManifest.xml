@@ -5,6 +5,10 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
+    <!-- 위치 접근 권한 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -21,17 +25,20 @@
             android:value="AIzaSyCHZmCLW7kI5YqicsPGNBOiSYG4LPEopo4" />
 
         <activity
-            android:name=".Mypage"
-            android:exported="false"
-            android:theme="@style/SplashTheme" />
+            android:name=".SettingActivity"
+            android:exported="false" />
         <activity
-            android:name=".Record"
-            android:exported="false"
-            android:theme="@style/SplashTheme" />
+            android:name=".LogActivity"
+            android:exported="false" />
         <activity
-            android:name=".Walk"
-            android:exported="false"
-            android:theme="@style/SplashTheme" />
+            android:name=".WalkActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PetActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
         <activity
             android:name=".RegisterActivity"
             android:exported="false"
@@ -41,11 +48,7 @@
             android:exported="false"
             android:theme="@style/SplashTheme" />
         <activity
-            android:name=".PetInfo"
-            android:exported="false"
-            android:theme="@style/SplashTheme" />
-        <activity
-            android:name=".HomeActivity"
+            android:name=".PetInfoActivity"
             android:exported="false"
             android:theme="@style/SplashTheme" />
         <activity
@@ -59,5 +62,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
