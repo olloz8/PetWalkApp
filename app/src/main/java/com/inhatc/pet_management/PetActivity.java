@@ -1,16 +1,14 @@
 package com.inhatc.pet_management;
 
-import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,10 +18,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-
 
 public class PetActivity extends AppCompatActivity {
 
@@ -40,7 +38,7 @@ public class PetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet);
 
-        txt_name = findViewById(R.id.txt_mypage);
+        txt_name = findViewById(R.id.txt_name);
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -65,41 +63,65 @@ public class PetActivity extends AppCompatActivity {
                     Toast.makeText(PetActivity.this, "데이터베이스 오류: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
-        }
 
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        arrayList = new ArrayList<>();
+            Query query = FirebaseDatabase.getInstance()
+                    .getReference("pet_management")
+                    .child("PetAccount")
+                    .orderByChild("userId")
+                    .equalTo(userId);
 
-        // Firebase 데이터베이스 연동
-        database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("pet_management").child("PetAccount");
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                arrayList.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    PetAccount petAccount = snapshot.getValue(PetAccount.class);
-                    arrayList.add(petAccount);
+            // onDataChange() 메서드 내부에서 Query 객체를 사용하여 데이터 처리
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    arrayList.clear();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        PetAccount petAccount = snapshot.getValue(PetAccount.class);
+                        arrayList.add(petAccount);
+                    }
+                    adapter.notifyDataSetChanged();
                 }
-                adapter.notifyDataSetChanged();
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("MypageActivity", String.valueOf(databaseError.toException()));
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("PetActivity", String.valueOf(databaseError.toException()));
+                }
+            });
 
-        adapter = new PetAdapter(arrayList, this);
-        recyclerView.setAdapter(adapter);
+            recyclerView = findViewById(R.id.recyclerView);
+            recyclerView.setHasFixedSize(true);
+            layoutManager = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(layoutManager);
+            arrayList = new ArrayList<>();
 
-        ImageView pet_add = findViewById(R.id.pet_add);
-        pet_add.setOnClickListener(view -> {
-            Intent intent = new Intent(PetActivity.this, PetInfoActivity.class);
-            startActivity(intent);
-        });
+            // Firebase 데이터베이스 연동
+            database = FirebaseDatabase.getInstance();
+            databaseReference = database.getReference("pet_management").child("PetAccount");
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    arrayList.clear();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        PetAccount petAccount = snapshot.getValue(PetAccount.class);
+                        arrayList.add(petAccount);
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("PetActivity", String.valueOf(databaseError.toException()));
+                }
+            });
+
+            adapter = new PetAdapter(arrayList, this);
+            recyclerView.setAdapter(adapter);
+
+            ImageView pet_add = findViewById(R.id.pet_add);
+            pet_add.setOnClickListener(view -> {
+                Intent intent = new Intent(PetActivity.this, PetInfoActivity.class);
+                startActivity(intent);
+            });
+        }
     }
 }
