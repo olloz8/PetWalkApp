@@ -13,14 +13,21 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="400dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/second_layer"
+        app:layout_constraintStart_toStartOf="@+id/second_layer"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/second_layer"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="-16dp"
-        tools:layout_editor_absoluteY="346dp"
+        android:layout_marginBottom="229dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/map"
         tools:ignore="MissingConstraints">
 
         <TextView
@@ -39,7 +46,6 @@
 
         <TextView
             android:id="@+id/calorieCount"
-            android:textColor="@color/black"
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_marginEnd="20dp"
@@ -47,6 +53,7 @@
             android:ems="10"
             android:gravity="center"
             android:text="0"
+            android:textColor="@color/black"
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/calorieTitle"
             app:layout_constraintEnd_toEndOf="parent"
@@ -58,7 +65,6 @@
 
         <TextView
             android:id="@+id/meterCount"
-            android:textColor="@color/black"
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_marginStart="20dp"
@@ -67,6 +73,7 @@
             android:ems="10"
             android:gravity="center"
             android:text="0.0"
+            android:textColor="@color/black"
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/meterTitle"
             app:layout_constraintEnd_toStartOf="@+id/timeCount"
@@ -82,8 +89,8 @@
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
             android:gravity="center"
-            android:textColor="@color/black"
             android:text="걸음 수"
+            android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/timeTitle"
@@ -91,11 +98,11 @@
 
         <TextView
             android:id="@+id/timeTitle"
-            android:textColor="@color/black"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="시간(분)"
+            android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintEnd_toStartOf="@+id/calorieTitle"
             app:layout_constraintStart_toEndOf="@+id/meterTitle"
@@ -103,13 +110,13 @@
 
         <TextView
             android:id="@+id/meterTitle"
-            android:textColor="@color/black"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
             android:gravity="center"
             android:text="미터(m)"
+            android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintEnd_toStartOf="@+id/timeTitle"
             app:layout_constraintHorizontal_chainStyle="packed"
@@ -135,10 +142,10 @@
         <Button
             android:id="@+id/stopButton"
             android:layout_width="0dp"
-            android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
             android:text="산책 종료"
@@ -150,7 +157,7 @@
             app:layout_constraintTop_toBottomOf="@+id/calorieTitle" />
 
 
-      <Button
+        <Button
             android:id="@+id/walkStartButton"
             android:layout_width="0dp"
             android:layout_height="50dp"
