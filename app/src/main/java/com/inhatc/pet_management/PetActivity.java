@@ -54,7 +54,7 @@ public class PetActivity extends AppCompatActivity {
                     if (dataSnapshot.exists()) {
                         String username = dataSnapshot.child("name").getValue(String.class);
                         if (username != null) {
-                            txt_name.setText(username + "님의 반려동물");
+                            txt_name.setText(username + "님의 펫");
                         }
                     }
                 }
@@ -66,34 +66,11 @@ public class PetActivity extends AppCompatActivity {
                 }
             });
 
-            Query query = FirebaseDatabase.getInstance()
-                    .getReference("pet_management")
-                    .child("PetAccount")
-                    .orderByChild("userId")
-                    .equalTo(userId);
-
-            // onDataChange() 메서드 내부에서 Query 객체를 사용하여 데이터 처리
-            query.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    arrayList.clear();
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        PetAccount petAccount = snapshot.getValue(PetAccount.class);
-                        arrayList.add(petAccount);
-                    }
-                    adapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.e("PetActivity", String.valueOf(databaseError.toException()));
-                }
-            });
-
             recyclerView = findViewById(R.id.recyclerView);
             recyclerView.setHasFixedSize(true);
             layoutManager = new LinearLayoutManager(this);
             recyclerView.setLayoutManager(layoutManager);
+
             arrayList = new ArrayList<>();
 
             // Firebase 데이터베이스 연동
@@ -105,7 +82,10 @@ public class PetActivity extends AppCompatActivity {
                     arrayList.clear();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         PetAccount petAccount = snapshot.getValue(PetAccount.class);
-                        arrayList.add(petAccount);
+                        if (petAccount != null && petAccount.getEmailId().equals(currentUser.getEmail())) {
+                            petAccount.setKey(snapshot.getKey()); // 키 설정
+                            arrayList.add(petAccount);
+                        }
                     }
                     adapter.notifyDataSetChanged();
                 }
@@ -124,8 +104,7 @@ public class PetActivity extends AppCompatActivity {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(PetActivity.this, PetInfoActivity.class); //fragment라서 activity intent와는 다른 방식
-                    // intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    Intent intent = new Intent(PetActivity.this, PetInfoActivity.class);
                     startActivity(intent);
                 }
             });

@@ -2,13 +2,30 @@ package com.inhatc.pet_management;
 
 public class PetAccount {
 
-    private String name;       //반려동물 이름
-    private String birth;      //반려동물 생년월일
-    private String species;    //반려동물 종
-    private String imgUrl;     //반려동물 이미지
-    private String emailId;    //유저 아이디
+    private String name;       // 반려동물 이름
+    private String birth;      // 반려동물 생년월일
+    private String species;    // 반려동물 종
+    private String imgUrl;     // 반려동물 이미지
+    private String emailId;    // 유저 아이디
+    private String key;        // Firebase 데이터베이스 키
 
     public PetAccount() {
+        // 기본 생성자
+    }
+
+    public PetAccount(String name, String birth, String species, String imgUrl) {
+        this.name = name;
+        this.birth = birth;
+        this.species = species;
+        this.imgUrl = imgUrl;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getEmailId() {
@@ -50,5 +67,4 @@ public class PetAccount {
     public void setSpecies(String species) {
         this.species = species;
     }
-
 }
