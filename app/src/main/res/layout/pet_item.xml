@@ -9,20 +9,24 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_weight="1">
 
             <ImageView
                 android:id="@+id/pet_image"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_margin="5dp"
-                android:src="@drawable/ic_launcher_background"/>
+                android:src="@drawable/ic_launcher_background"
+                android:scaleType="centerCrop"/>
 
             <LinearLayout
                 android:layout_width="249dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:orientation="vertical">
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical"
+                >
 
                 <TextView
                     android:id="@+id/pet_name"
@@ -30,8 +34,9 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:text="이름"
-                    android:textSize="16sp"
-                    android:textColor="#000"/>
+                    android:textColor="#000"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/pet_birth"
@@ -39,8 +44,8 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:text="생년월일"
-                    android:textSize="14sp"
-                    android:textColor="#444"/>
+                    android:textColor="#444"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/pet_species"
@@ -48,12 +53,12 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:text="종"
-                    android:textSize="14sp"
-                    android:textColor="#444"/>
+                    android:textColor="#444"
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
-    </LinearLayout>
+        </LinearLayout>
 
     <View
         android:layout_width="match_parent"

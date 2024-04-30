@@ -6,8 +6,17 @@ public class PetAccount {
     private String birth;      //반려동물 생년월일
     private String species;    //반려동물 종
     private String imgUrl;     //반려동물 이미지
+    private String emailId;    //유저 아이디
 
     public PetAccount() {
+    }
+
+    public String getEmailId() {
+        return emailId;
+    }
+
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
     }
 
     public String getImgUrl() {

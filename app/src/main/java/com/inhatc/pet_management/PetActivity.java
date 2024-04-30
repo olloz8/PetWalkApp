@@ -3,6 +3,7 @@ package com.inhatc.pet_management;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -117,10 +119,15 @@ public class PetActivity extends AppCompatActivity {
             adapter = new PetAdapter(arrayList, this);
             recyclerView.setAdapter(adapter);
 
-            ImageView pet_add = findViewById(R.id.pet_add);
-            pet_add.setOnClickListener(view -> {
-                Intent intent = new Intent(PetActivity.this, PetInfoActivity.class);
-                startActivity(intent);
+            //플로팅 버튼
+            FloatingActionButton fab = findViewById(R.id.fab);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(PetActivity.this, PetInfoActivity.class); //fragment라서 activity intent와는 다른 방식
+                    // intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(intent);
+                }
             });
         }
     }

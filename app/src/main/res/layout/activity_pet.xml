@@ -8,6 +8,7 @@
     android:background="#ffffff"
     tools:context=".PetActivity">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,20 +23,14 @@
 
             <TextView
                 android:id="@+id/txt_name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
+                android:gravity="center"
                 android:text=""
                 android:textColor="#000"
                 android:textSize="20sp"
                 android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/pet_add"
-                android:layout_width="42dp"
-                android:layout_height="62dp"
-                android:layout_gravity="end"
-                app:srcCompat="@drawable/ic_add" />
 
         </LinearLayout>
 
@@ -46,5 +41,17 @@
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteY="93dp" />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_floating"
+            tools:layout_editor_absoluteX="390dp"
+            tools:layout_editor_absoluteY="757dp" />
+
     </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

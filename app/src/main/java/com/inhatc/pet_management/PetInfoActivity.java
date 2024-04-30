@@ -62,12 +62,15 @@ public class PetInfoActivity extends AppCompatActivity {
                 String strPetBirth = mEtBirth.getText().toString().trim();
                 String strPetSpecies = mEtSpecies.getText().toString().trim();
 
+                // 현재 로그인한 사용자의 이메일(ID) 가져오기
+                String currentUserEmail = mFirebaseAuth.getCurrentUser().getEmail();
+
                 // Firebase Realtime Database에 반려동물 정보 추가
                 DatabaseReference petRef = mDatabaseRef.child("PetAccount").push(); // 새로운 키 생성
                 petRef.child("name").setValue(strPetName);
                 petRef.child("birth").setValue(strPetBirth);
                 petRef.child("species").setValue(strPetSpecies);
-                petRef.child("uid").setValue(mFirebaseAuth.getCurrentUser().getUid()); // 현재 사용자의 UID 저장
+                petRef.child("emailId").setValue(currentUserEmail); // 현재 로그인한 사용자의 이메일(ID) 저장
 
                 Toast.makeText(PetInfoActivity.this, "반려동물 정보가 추가되었습니다.", Toast.LENGTH_SHORT).show();
 
