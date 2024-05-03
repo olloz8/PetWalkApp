@@ -235,27 +235,65 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
                         if (dataSnapshot.exists()) {
                             // 펫 정보를 가져와서 펫 이름을 추출하여 배열에 저장
                             List<String> petNames = new ArrayList<>();
+                            final List<String> selectedPentNames = new ArrayList<>(); //사용자가 선택한 펫 이름을 저장할 리스트
+                            final String[] petNamesArray = new String[(int) dataSnapshot.getChildrenCount()]; //펫 이름 배열
+
+                            int index = 0;
                             for (DataSnapshot petSnapshot : dataSnapshot.getChildren()) {
                                 String petName = petSnapshot.child("name").getValue(String.class);
                                 if (petName != null) {
                                     petNames.add(petName);
+                                    petNamesArray[index] = petName;
+                                    index++;
                                 }
                             }
-
-                            // 추출한 펫 이름들을 문자열 배열로 변환
-                            String[] petNamesArray = petNames.toArray(new String[0]);
 
                             // 다이얼로그 빌더 생성
                             AlertDialog.Builder builder = new AlertDialog.Builder(WalkActivity.this);
                             builder.setTitle("펫 선택");
 
                             // 체크박스 다이얼로그에 펫 이름들 추가
-                            builder.setItems(petNamesArray, new DialogInterface.OnClickListener() {
+                            builder.setMultiChoiceItems(petNamesArray, null, new DialogInterface.OnMultiChoiceClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                                    //사용자가 체크박스를 선택했을 때의 동작
+                                    if (isChecked) {
+                                        //선택한 경우 리스트에 추가
+                                        selectedPentNames.add(petNamesArray[which]);
+                                    } else {
+                                        //선택을 해제한 경우 리스트에서 제거
+                                        selectedPentNames.remove(petNamesArray[which]);
+                                    }
+                                }
+                            });
+
+                            //확인 버튼 추가
+                            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    // 사용자가 펫을 선택했을 때의 동작
-                                    String selectedPetName = petNamesArray[which];
-                                    // 여기서 선택한 펫 이름을 사용하여 원하는 동작을 수행할 수 있습니다.
+                                    //사용자가 확인 버튼을 눌렀을 때의 동작
+                                    StringBuilder message = new StringBuilder();
+                                    for (String petName : selectedPentNames) {
+                                        //선택한 펫 이름들을 StringBuilder에 추가
+                                        message.append(petName).append(", ");
+                                    }
+
+                                    // 마지막 ", " 문자 제거
+                                    if (message.length() > 0) {
+                                        message.setLength(message.length() - 2);
+                                        // 버튼 텍스트 수정
+                                        btnPetSelect.setText(message.toString() + " 산책");
+                                        // 여기서 추가적인 동작을 수행할 수 있습니다.
+                                    }
+                                }
+                            });
+
+                            // 취소 버튼 추가
+                            builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // 사용자가 취소 버튼을 눌렀을 때의 동작
+                                    dialog.dismiss(); // 다이얼로그 닫기
                                 }
                             });
 
@@ -266,7 +304,6 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
                             Toast.makeText(WalkActivity.this, "등록된 펫이 없습니다.", Toast.LENGTH_SHORT).show();
                         }
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                         // 오류 처리
