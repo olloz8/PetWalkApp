@@ -48,6 +48,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog.Builder;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -73,6 +74,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.maps.android.SphericalUtil;
 import com.gun0912.tedpermission.PermissionListener;
 //import com.gun0912.tedpermission.TedPermission;
@@ -135,7 +142,9 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
     //SupportMapFragment supportMapFragment;
 
     private View mLayout;
-    private Button btnWalkStart, btnWalkPause, btnWalkFinish;
+    private Button btnPetSelect, btnWalkStart, btnWalkPause, btnWalkFinish;
+    private List<String> mSeletedItems;
+    private AlertDialog.Builder builder;
     private TextView tvTime, tvStepCounter, tvMeterCounter;
     private Thread meterThread = null;
     private Thread stopWatchThread = null;
@@ -175,7 +184,6 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_walk);
 
 
-
         mLayout = findViewById(R.id.layout_walk);
 
         locationRequest = new LocationRequest()
@@ -197,6 +205,7 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // findViewById. 버튼 레이아웃과 클래스 연동
         //setMissionTime = findViewById(R.id.set_mission_time);
+        btnPetSelect = findViewById(R.id.petSelectButton);
         btnWalkStart = findViewById(R.id.walkStartButton);
         btnWalkPause = findViewById(R.id.pauseButton);
         btnWalkFinish = findViewById(R.id.stopButton);
@@ -210,6 +219,63 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        recordView.setText("");
 
         // 각 버튼 눌렀을 때의 작동
+
+        // 산책할 펫 선택 버튼 눌렀을 때,
+        btnPetSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 현재 로그인한 사용자의 이메일(ID) 가져오기
+                String currentUserEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+                // Firebase Realtime Database의 "PetAccount" 노드에서 해당 사용자가 등록한 펫 정보 가져오기
+                DatabaseReference userPetsRef = FirebaseDatabase.getInstance().getReference("pet_management").child("PetAccount");
+                userPetsRef.orderByChild("emailId").equalTo(currentUserEmail).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            // 펫 정보를 가져와서 펫 이름을 추출하여 배열에 저장
+                            List<String> petNames = new ArrayList<>();
+                            for (DataSnapshot petSnapshot : dataSnapshot.getChildren()) {
+                                String petName = petSnapshot.child("name").getValue(String.class);
+                                if (petName != null) {
+                                    petNames.add(petName);
+                                }
+                            }
+
+                            // 추출한 펫 이름들을 문자열 배열로 변환
+                            String[] petNamesArray = petNames.toArray(new String[0]);
+
+                            // 다이얼로그 빌더 생성
+                            AlertDialog.Builder builder = new AlertDialog.Builder(WalkActivity.this);
+                            builder.setTitle("펫 선택");
+
+                            // 체크박스 다이얼로그에 펫 이름들 추가
+                            builder.setItems(petNamesArray, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // 사용자가 펫을 선택했을 때의 동작
+                                    String selectedPetName = petNamesArray[which];
+                                    // 여기서 선택한 펫 이름을 사용하여 원하는 동작을 수행할 수 있습니다.
+                                }
+                            });
+
+                            // 다이얼로그 표시
+                            builder.show();
+                        } else {
+                            // 사용자가 등록한 펫이 없는 경우 처리
+                            Toast.makeText(WalkActivity.this, "등록된 펫이 없습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        // 오류 처리
+                        Log.e("Firebase", "Error fetching user pets", databaseError.toException());
+                    }
+                });
+            }
+        });
+
         // 시작 버튼 눌렀을 때,
         btnWalkStart.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -739,35 +805,6 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
 
-    // 활용할 수 있는 카메라 앱이 있는 지 체크하는 방법
-    public static boolean isIntentAvailable( Context context, String action){
-        final PackageManager packageManager = context.getPackageManager();
-        final Intent intent = new Intent( action);
-        List<ResolveInfo> list = packageManager.queryIntentActivities( intent, PackageManager.MATCH_DEFAULT_ONLY);
-        return list.size() > 0;
-    }
-
-    String currentPhotoPath;
-    // 파일에 시간을 부여하여 중복되지않도록 방지
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "TEST" + timeStamp + "_";
-
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-
-        uploadImage = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-        imageFilePath = uploadImage.getAbsolutePath();
-
-        return uploadImage;
-    }
-
-
-
     // stop watch에 사용될 핸들러
     Handler handler = new Handler() {
         @Override
@@ -879,19 +916,5 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onClick(View v) {
-    }
-    private void selectGallery () {
-
-        if (Build.VERSION.SDK_INT < 19) {
-            photoIntent = new Intent();
-            photoIntent.setAction(Intent.ACTION_GET_CONTENT);
-            photoIntent.setType("image/*");
-            startActivityForResult(photoIntent, GET_GALLERY_VALUE);
-        } else {
-            photoIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-            photoIntent.addCategory(Intent.CATEGORY_OPENABLE);
-            photoIntent.setType("image/*");
-            startActivityForResult(photoIntent, GET_GALLERY_VALUE);
-        }
     }
 }

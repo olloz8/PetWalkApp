@@ -8,22 +8,44 @@
     android:background="#ffffff"
     tools:context=".WalkActivity">
 
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="176dp"
+        android:layout_height="124dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/map"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/petSelectButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="28dp"
+            android:text="산책할 펫 선택하기" />
+    </LinearLayout>
+
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_marginBottom="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/second_layer"
+        android:layout_height="0dp"
+        android:layout_marginBottom="215dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/second_layer"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         tools:ignore="MissingConstraints" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/second_layer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="229dp"
+        android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -162,11 +184,9 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
-            android:text="산책 START!"
+            android:text="산책 시작"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:visibility="visible"

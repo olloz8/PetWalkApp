@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (dataSnapshot.exists()) {
                         String username = dataSnapshot.child("name").getValue(String.class);
                         if (username != null) {
-                            txt_name.setText(username + " 집사야 산책가자");
+                            txt_name.setText(username + " 산책고");
                         }
                     }
                 }
