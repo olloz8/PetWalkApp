@@ -81,8 +81,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.maps.android.SphericalUtil;
-import com.gun0912.tedpermission.PermissionListener;
-//import com.gun0912.tedpermission.TedPermission;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -183,6 +181,20 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_walk);
 
+        // API 레벨 23 이상인 경우
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if(ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_DENIED){
+                requestPermissions(new String[]{Manifest.permission.ACTIVITY_RECOGNITION}, 0);
+            }
+        } else {
+            // API 레벨 23 이하인 경우
+            if(ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_DENIED){
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACTIVITY_RECOGNITION}, 0);
+            }
+        }
 
         mLayout = findViewById(R.id.layout_walk);
 
@@ -235,7 +247,7 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
                         if (dataSnapshot.exists()) {
                             // 펫 정보를 가져와서 펫 이름을 추출하여 배열에 저장
                             List<String> petNames = new ArrayList<>();
-                            final List<String> selectedPentNames = new ArrayList<>(); //사용자가 선택한 펫 이름을 저장할 리스트
+                            final List<String> selectedPetNames = new ArrayList<>(); //사용자가 선택한 펫 이름을 저장할 리스트
                             final String[] petNamesArray = new String[(int) dataSnapshot.getChildrenCount()]; //펫 이름 배열
 
                             int index = 0;
@@ -259,10 +271,10 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
                                     //사용자가 체크박스를 선택했을 때의 동작
                                     if (isChecked) {
                                         //선택한 경우 리스트에 추가
-                                        selectedPentNames.add(petNamesArray[which]);
+                                        selectedPetNames.add(petNamesArray[which]);
                                     } else {
                                         //선택을 해제한 경우 리스트에서 제거
-                                        selectedPentNames.remove(petNamesArray[which]);
+                                        selectedPetNames.remove(petNamesArray[which]);
                                     }
                                 }
                             });
@@ -273,7 +285,7 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 public void onClick(DialogInterface dialog, int which) {
                                     //사용자가 확인 버튼을 눌렀을 때의 동작
                                     StringBuilder message = new StringBuilder();
-                                    for (String petName : selectedPentNames) {
+                                    for (String petName : selectedPetNames) {
                                         //선택한 펫 이름들을 StringBuilder에 추가
                                         message.append(petName).append(", ");
                                     }
@@ -374,7 +386,7 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
                 // 걸음 감지를 멈춘다.
                 sensorManager.unregisterListener(WalkActivity.this);
 
-                // 다이어로그 생성하여 사용자가 산책기록을 할 것인지 확인
+                // 다이얼로그 생성하여 사용자가 산책기록을 할 것인지 확인
                 final AlertDialog.Builder quitCheckBuilder = new AlertDialog.Builder(WalkActivity.this);
                 quitCheckBuilder.setTitle ("산책 종료");
                 quitCheckBuilder.setMessage("산책을 기록하시겠습니까?");
@@ -930,7 +942,7 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onPause() {
         super.onPause();
-//        sensorManager.unregisterListener(this);
+       //sensorManager.unregisterListener(this);
 
     }
 
