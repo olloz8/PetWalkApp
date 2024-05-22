@@ -119,8 +119,9 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
     File uploadImage;
     boolean needRequest = false;
     Location mCurrentLocation;
-    LatLng currentPosition = null;
-    LatLng previousPosition = null;
+    LatLng currentPosition = null;  //현재 위치
+    LatLng previousPosition = null; //이전 위치
+
     // GPS 위치를 지속적으로 얻어줄 스위치
     int tracking = 0;
 
@@ -158,6 +159,8 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
     Uri captureUri = null;
     String dialogImagePath;
     String [] REQUIRED_PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+
+    private boolean petSelected = false;
 
     Toolbar toolbar;
     ActionBar actionBar;
@@ -202,9 +205,9 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 // 10초 간격으로 위치를 업데이트 한다.
                 .setInterval(10000)
-//                .setInterval(UPDATE_INTERVAL_MS)
+                //.setInterval(UPDATE_INTERVAL_MS)
                 // 가장 빠른 업데이트 간격은 0.5초로 한다.
-//                .setFastestInterval(FASTEST_UPDATE_INTERVAL_MS);
+                //.setFastestInterval(FASTEST_UPDATE_INTERVAL_MS);
                 .setFastestInterval(5000);
         // 위치정보 준비를 요청한다.
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
@@ -228,7 +231,8 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
         // 스톱워치 시간표시부분 초기화
         tvTime.setText("00:00:00");
         // 스톱워치의 기록이 표시될 위치의 초기화
-//        recordView.setText("");
+        //recordView.setText("");
+
 
         // 각 버튼 눌렀을 때의 작동
 
@@ -296,6 +300,8 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
                                         // 버튼 텍스트 수정
                                         btnPetSelect.setText(message.toString() + " 산책");
                                         // 여기서 추가적인 동작을 수행할 수 있습니다.
+                                        petSelected = true;
+                                        btnWalkStart.setEnabled(true); // 시작 버튼 활성화
                                     }
                                 }
                             });
@@ -330,18 +336,22 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
+                if (!petSelected) {
+                    Toast.makeText(WalkActivity.this, "펫을 선택해주세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 // 스타트 버튼 눌렀을 때, 스타트 버튼은 사라지고 일시정지, 정지 버튼이 보이게 된다.
                 v.setVisibility(View.GONE);
                 btnWalkPause.setVisibility(View.VISIBLE);
                 btnWalkFinish.setVisibility(View.VISIBLE);
-//                guideProgress.setVisibility(View.GONE);
+                //guideProgress.setVisibility(View.GONE);
 
                 // step Counter
                 sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
                 // 걸음을 감지할 때마다 결과값 1을 출력한다.
                 stepCountSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
                 if (stepCountSensor == null) {
-//                    Toast.makeText(this, "No Step Detected", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "No Step Detected", Toast.LENGTH_SHORT).show();
                 }
 
                 if (sensorManager != null) {
@@ -372,13 +382,13 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
                 v.setVisibility(View.GONE);
                 btnWalkPause.setVisibility(View.GONE);
                 btnWalkStart.setVisibility(View.VISIBLE);
-//                tvTotalTimeTitle.setVisibility(View.VISIBLE);
-//                recordView.setVisibility(View.VISIBLE);
+                //tvTotalTimeTitle.setVisibility(View.VISIBLE);
+                //recordView.setVisibility(View.VISIBLE);
 
                 //쓰레드를 interrupt(); 하여 멈춘다.
                 stopWatchThread.interrupt();
                 record = String.valueOf(tvTime.getText());
-//                recordView.setText(record);
+                //recordView.setText(record);
                 tvTime.setText("00:00:00");
                 // GPS 정보 간 거리차이 연산을 멈춘다.
                 tracking = 0;
@@ -394,55 +404,21 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
                 quitCheckBuilder.setPositiveButton("기록", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //AlertDialog.Builder builder = new AlertDialog.Builder(WalkActivity.this);
-                                //View view = LayoutInflater.from(WalkActivity.this).inflate(R.layout.dailog_walk_diary, null, false);
-                                //builder.setView(view);
-
-                                //final Button BtnSubmit = (Button) view.findViewById(R.id.btn_walk_dialog);
-                                //final EditText editDate = (EditText) view.findViewById(R.id.insert_walk_date);
-                                //final EditText editTime = (EditText) view.findViewById(R.id.insert_walk_time);
-                                //final EditText editStepNumber = (EditText)view.findViewById(R.id.insert_walk_step);
-                                //final EditText editMeter = (EditText)view.findViewById(R.id.insert_walk_meter);
-                                //final EditText editMemo = (EditText)view.findViewById(R.id.insert_walk_memo);
-                                //ivPhoto = (ImageView)view.findViewById(R.id.walklog_photo);
-
-                                // SD카드, 앱 내부에 저장된 이미지 불러오기
-                                if (uploadImage != null) {
-                                    dialogImagePath = uploadImage.getAbsolutePath();
-                                }
-                                //Environment.getExternalStorageDirectory().getAbsolutePath()는 SD카드의 절대경로를 구하는 매소드
-                                //path에 불러올 비트맵파일의 주소명을 초기화 시켜준다.
-                                Log.d("TAG", dialogImagePath);
-                                BitmapFactory.Options bo = new BitmapFactory.Options();
-                                bo.inSampleSize = 2;
-                                Bitmap bmp = BitmapFactory.decodeFile(dialogImagePath, bo);
-                                //저장되있던 비트맵 불러온다.
-                                //ImageView imageView = (ImageView)view.findViewById(R.id.walklog_photo);
-                                //imageView.setImageBitmap(bmp);
-                                // 최종 시간기록을 불러온다.
-                                //editTime.setText(record);
-                                // 최종 걸음수를 불러온다.
-                                //editStepNumber.setText(String.valueOf(mStepDetector));
-                                // 최종 meter 이동 거리를 불러온다.
-                                //editMeter.setText(meterResult);
-                                // 기록된 정보를 산책 일지로 넘긴다.
-                                //final AlertDialog addWalkItemDialog = builder.create();
-
-
-//                        final AlertDialog dialog = builder.create();
-
+                                // LogAddActivity로 이동
+                                Intent intent = new Intent(WalkActivity.this, LogAddActivity.class);
+                                startActivity(intent);
                             }
                         })
                         .setNegativeButton("종료", new DialogInterface.OnClickListener() {
-
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                                 // 종료된 후에는 메인페이지로 이동한다.
-                                Intent intent = new Intent (WalkActivity.this, MainActivity.class);
+                                Intent intent = new Intent(WalkActivity.this, MainActivity.class);
                                 startActivity(intent);
                             }
                         });
+
                 AlertDialog alertDialog = quitCheckBuilder.create();
                 alertDialog.show();
             }
@@ -519,7 +495,7 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 10))
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 10))
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
             @Override
@@ -541,16 +517,20 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 previousPosition = currentPosition;
                 currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
+
+
                 // NullPoint 에러 방지
                 if (previousPosition == null) previousPosition = currentPosition;
 
-//                if (previousPosition != currentPosition) {
-//                    double radius = 3;
-//                    double distance = SphericalUtil.computeDistanceBetween(currentPosition, addedMarker.getPosition());
-//                    if ((distance < radius) && (!previousPosition.equals(currentPosition))) {
-//                        strMeterUpload = Double.toString(distance);
-//                    }
-//                }
+/*                if (previousPosition != currentPosition) {
+                    double radius = 3;
+                    double distance = SphericalUtil.computeDistanceBetween(currentPosition, addedMarker.getPosition());
+                    if ((distance < radius) && (!previousPosition.equals(currentPosition))) {
+                        strMeterUpload = Double.toString(distance);
+                    }
+                }*/
+
+                
                 // 현 위치와 이전 위치의 거리 차이를 구한다.
                 if (tracking == 1) {
                     radius = 0.05;
@@ -585,7 +565,7 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
         //polyline을 그려주는 메소드
         PolylineOptions options = new PolylineOptions().add(previousPosition).add(currentPosition).width(15).color(Color.BLACK).geodesic(true);
         polylines.add(mMap.addPolyline(options));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startLatLng, 18));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startLatLng, 18));
     }
 
     private void startLocationUpdates() {
@@ -655,7 +635,7 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         if (addresses == null || addresses.size() == 0) {
-//            Toast.makeText(this, "주소 미발견", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "주소 미발견", Toast.LENGTH_LONG).show();
             return "주소 미발견";
         } else {
             Address address = addresses.get(0);
@@ -799,7 +779,7 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
         builder.create().show();
     }
 
-    @Override
+/*    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -852,7 +832,8 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
         Matrix matrix = new Matrix();
         matrix.postRotate(degree);
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-    }
+    }*/
+
 
     // stop watch에 사용될 핸들러
     Handler handler = new Handler() {
@@ -951,8 +932,10 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
             if (event.values[0] == 1.0f) {
-                mStepDetector ++;
-                tvStepCounter.setText(String.valueOf(mStepDetector));
+                if (timeCountRunning) {
+                    mStepDetector++;
+                    tvStepCounter.setText(String.valueOf(mStepDetector));
+                }
             }
         }
 
