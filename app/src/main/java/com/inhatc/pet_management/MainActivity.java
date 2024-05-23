@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             i = new Intent(this, WalkActivity.class);
             startActivity(i);
         } else if (id == R.id.d3) {
-            i = new Intent(this, LogActivity.class);
+            i = new Intent(this, WalkLogActivity.class);
             startActivity(i);
         } else if (id == R.id.d4) {
             i = new Intent(this, SettingActivity.class);

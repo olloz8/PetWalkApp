@@ -1,4 +1,7 @@
 package com.inhatc.pet_management;
 
-public class WalkAdapter {
+
+public class WalkLogAdapter  {
+
+
 }

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#ffffff"
-    tools:context=".LogAddActivity">
+    tools:context=".WalkLogAddActivity">
 
     <ImageView
         android:id="@+id/btn_back"

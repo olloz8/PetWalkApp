@@ -20,7 +20,7 @@
         android:theme="@style/Theme.Pet_management"
         tools:targetApi="31">
         <activity
-            android:name=".LogAddActivity"
+            android:name=".WalkLogAddActivity"
             android:exported="false" />
 
         <meta-data
@@ -31,7 +31,7 @@
             android:name=".SettingActivity"
             android:exported="false" />
         <activity
-            android:name=".LogActivity"
+            android:name=".WalkLogActivity"
             android:exported="false" />
         <activity
             android:name=".WalkActivity"

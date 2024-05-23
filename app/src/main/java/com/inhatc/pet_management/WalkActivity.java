@@ -2,18 +2,11 @@ package com.inhatc.pet_management;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -22,20 +15,15 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -48,13 +36,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AlertDialog.Builder;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -82,15 +67,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.maps.android.SphericalUtil;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -409,8 +388,21 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // LogAddActivity로 이동
-                                Intent intent = new Intent(WalkActivity.this, LogAddActivity.class);
+                                Intent intent = new Intent(WalkActivity.this, WalkLogAddActivity.class);
+
+
+                                // UI 요소에서 데이터 가져오기
+                                String strTime = tvTime.getText().toString(); // 시간
+                                String strStepNumber = tvStepCounter.getText().toString(); // 걸음 수 또는 칼로리(실제 사용 목적에 맞게)
+                                String strMeter = tvMeterCounter.getText().toString(); // 이동 거리
+
+                                // 인텐트에 데이터 추가
+                                intent.putExtra("time", strTime); // 산책 시간
+                                intent.putExtra("stepNumber", strStepNumber); // 걸음 수 또는 칼로리
+                                intent.putExtra("meter", strMeter); // 이동 거리
+
                                 startActivity(intent);
+
                             }
                         })
                         .setNegativeButton("종료", new DialogInterface.OnClickListener() {
