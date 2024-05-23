@@ -346,6 +346,8 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
                 btnWalkFinish.setVisibility(View.VISIBLE);
                 //guideProgress.setVisibility(View.GONE);
 
+                btnPetSelect.setEnabled(false);
+
                 // step Counter
                 sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
                 // 걸음을 감지할 때마다 결과값 1을 출력한다.
@@ -384,6 +386,8 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
                 btnWalkStart.setVisibility(View.VISIBLE);
                 //tvTotalTimeTitle.setVisibility(View.VISIBLE);
                 //recordView.setVisibility(View.VISIBLE);
+
+                btnPetSelect.setEnabled(false);
 
                 //쓰레드를 interrupt(); 하여 멈춘다.
                 stopWatchThread.interrupt();
@@ -435,9 +439,14 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
                     btnWalkPause.setText("일시 정지");
                     // 스톱 워치가 멈추면 GPS 추적도 멈춘다.
                     tracking = 0;
+
+                    btnPetSelect.setEnabled(true);
+
                 } else {
                     btnWalkPause.setText("계속");
                     tracking = 1;
+
+                    btnPetSelect.setEnabled(true);
                 }
             }
         });
@@ -445,7 +454,7 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     // 툴바 메뉴 클릭시 이벤트 (프로필 추가, 뒤로가기)
-    @Override
+/*    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             // 툴바 홈 버튼 눌렀을 때의 이벤트
@@ -454,7 +463,7 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {

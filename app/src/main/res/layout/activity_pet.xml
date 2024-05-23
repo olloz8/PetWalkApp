@@ -34,12 +34,19 @@
 
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
+
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="410dp"
             android:layout_height="638dp"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteY="93dp" />
+
+
+
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
@@ -51,7 +58,9 @@
             tools:layout_editor_absoluteX="390dp"
             tools:layout_editor_absoluteY="757dp" />
 
+
     </LinearLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
