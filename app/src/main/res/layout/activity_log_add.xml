@@ -195,10 +195,10 @@
                     android:layout_weight="0.5" />
 
                 <TextView
-                    android:id="@+id/title_step_count"
+                    android:id="@+id/subheading_walk_meter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" 걸음수"
+                    android:text="거리"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 
@@ -208,11 +208,13 @@
                     android:layout_weight="0.5" />
 
 
+
+
                 <TextView
-                    android:id="@+id/subheading_walk_meter"
+                    android:id="@+id/title_step_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="거리"
+                    android:text=" 걸음수"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
 

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -68,6 +69,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.maps.android.SphericalUtil;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -129,6 +131,9 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
     private String record = "";
     private Boolean timeCountRunning = true;
     private String meterResult = null;
+    private String imagePath;
+
+
     private String setTime;
 
     private Intent photoIntent;
@@ -387,19 +392,27 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
                 quitCheckBuilder.setPositiveButton("기록", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+
+                                //captureMapScreen();
+
                                 // LogAddActivity로 이동
                                 Intent intent = new Intent(WalkActivity.this, WalkLogAddActivity.class);
 
 
                                 // UI 요소에서 데이터 가져오기
+                                String strName = btnPetSelect.getText().toString(); // 펫 이름
+                                strName = strName.replace(" 산책", ""); // " 산책" 제거
+
                                 String strTime = tvTime.getText().toString(); // 시간
                                 String strStepNumber = tvStepCounter.getText().toString(); // 걸음 수 또는 칼로리(실제 사용 목적에 맞게)
                                 String strMeter = tvMeterCounter.getText().toString(); // 이동 거리
 
                                 // 인텐트에 데이터 추가
+                                intent.putExtra("name", strName); //펫 이름
                                 intent.putExtra("time", strTime); // 산책 시간
                                 intent.putExtra("stepNumber", strStepNumber); // 걸음 수 또는 칼로리
                                 intent.putExtra("meter", strMeter); // 이동 거리
+                                //intent.putExtra("imagePath", imagePath.getBytes());
 
                                 startActivity(intent);
 
@@ -568,6 +581,28 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
         polylines.add(mMap.addPolyline(options));
         //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startLatLng, 18));
     }
+
+/*    private void captureMapScreen() {
+        GoogleMap.SnapshotReadyCallback callback = new GoogleMap.SnapshotReadyCallback() {
+            @Override
+            public void onSnapshotReady(Bitmap snapshot) {
+                try {
+                    // 저장할 파일 경로 설정
+                    File cacheDir = getCacheDir();
+                    File imagePath = new File(cacheDir, "map_capture.png");
+                    FileOutputStream fos = new FileOutputStream(imagePath);
+                    snapshot.compress(Bitmap.CompressFormat.PNG, 90, fos);
+                    fos.close();
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        mMap.snapshot(callback);
+    }*/
 
     private void startLocationUpdates() {
         if (!checkLocationServicesStatus()) {
@@ -939,8 +974,19 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             }
         }
-
     }
+
+//    @Override
+//    public void onSensorChanged(SensorEvent event) {
+//        if (event.sensor.getType() == Sensor.TYPE_STEP_DETECTOR && timeCountRunning) {
+//            if (event.values[0] == 1.0f) {
+//                mStepDetector++;
+//                tvStepCounter.setText(String.valueOf(mStepDetector));
+//            }
+//        }
+//    }
+
+
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
