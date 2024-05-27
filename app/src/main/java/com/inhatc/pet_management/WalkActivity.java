@@ -2,6 +2,7 @@ package com.inhatc.pet_management;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -41,6 +43,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -71,6 +74,7 @@ import com.google.maps.android.SphericalUtil;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -182,6 +186,8 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
                         new String[]{Manifest.permission.ACTIVITY_RECOGNITION}, 0);
             }
         }
+
+        verifyStoragePermissions(this);
 
         mLayout = findViewById(R.id.layout_walk);
 
@@ -390,31 +396,11 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
                 quitCheckBuilder.setMessage("산책을 기록하시겠습니까?");
                 quitCheckBuilder.setCancelable(false);
                 quitCheckBuilder.setPositiveButton("기록", new DialogInterface.OnClickListener() {
+
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
-                                //captureMapScreen();
-
-                                // LogAddActivity로 이동
-                                Intent intent = new Intent(WalkActivity.this, WalkLogAddActivity.class);
-
-
-                                // UI 요소에서 데이터 가져오기
-                                String strName = btnPetSelect.getText().toString(); // 펫 이름
-                                strName = strName.replace(" 산책", ""); // " 산책" 제거
-
-                                String strTime = tvTime.getText().toString(); // 시간
-                                String strStepNumber = tvStepCounter.getText().toString(); // 걸음 수 또는 칼로리(실제 사용 목적에 맞게)
-                                String strMeter = tvMeterCounter.getText().toString(); // 이동 거리
-
-                                // 인텐트에 데이터 추가
-                                intent.putExtra("name", strName); //펫 이름
-                                intent.putExtra("time", strTime); // 산책 시간
-                                intent.putExtra("stepNumber", strStepNumber); // 걸음 수 또는 칼로리
-                                intent.putExtra("meter", strMeter); // 이동 거리
-                                //intent.putExtra("imagePath", imagePath.getBytes());
-
-                                startActivity(intent);
+                                // 지도 캡처 기능 호출
+                                captureMapSnapshot();
 
                             }
                         })
@@ -458,6 +444,26 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
+    }
+
     // 툴바 메뉴 클릭시 이벤트 (프로필 추가, 뒤로가기)
 /*    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -469,6 +475,40 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         return super.onOptionsItemSelected(item);
     }*/
+
+    // 구글 맵 캡처 기능 추가
+    private void captureMapSnapshot() {
+        mMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
+            @Override
+            public void onSnapshotReady(Bitmap bitmap) {
+                try {
+                    // 파일 저장 로직
+                    File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "map_snapshot.png");
+                    FileOutputStream fos = new FileOutputStream(file);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 90, fos);
+                    fos.close();
+                    imagePath = file.getAbsolutePath();
+
+                    // 캡처 완료 후 다음 액티비티로 이동
+                    Intent intent = new Intent(WalkActivity.this, WalkLogAddActivity.class);
+                    String strName = btnPetSelect.getText().toString().replace(" 산책", "");
+                    String strTime = tvTime.getText().toString();
+                    String strStepNumber = tvStepCounter.getText().toString();
+                    String strMeter = tvMeterCounter.getText().toString();
+
+                    intent.putExtra("name", strName);
+                    intent.putExtra("time", strTime);
+                    intent.putExtra("stepNumber", strStepNumber);
+                    intent.putExtra("meter", strMeter);
+                    intent.putExtra("imagePath", imagePath);
+
+                    startActivity(intent);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
@@ -581,6 +621,8 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
         polylines.add(mMap.addPolyline(options));
         //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startLatLng, 18));
     }
+
+
 
 /*    private void captureMapScreen() {
         GoogleMap.SnapshotReadyCallback callback = new GoogleMap.SnapshotReadyCallback() {
@@ -814,61 +856,6 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
         builder.create().show();
     }
-
-/*    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bitmap bitmap = BitmapFactory.decodeFile(imageFilePath);
-            ExifInterface exif = null;
-
-            try {
-                exif = new ExifInterface(imageFilePath);
-                //galleryAddPic();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            int exifOrientation;
-            int exifDegree;
-            if (exif != null) {
-                exifOrientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-                exifDegree = exifOrientationToDegress(exifOrientation);
-            } else {
-                exifDegree = 0;
-            }
-        }
-
-        switch (requestCode) {
-            case GPS_ENABLE_REQUEST_CODE:
-                // 사용자가 GPS 활성화 했는지 검사
-                if (checkLocationServicesStatus()) {
-                    if (checkLocationServicesStatus()) {
-                        Log.d(TAG, "onActivityResult : GPS 활성화 되었음");
-                        needRequest = true;
-                        return;
-                    }
-                }
-                break;
-        }
-    }
-
-    private int exifOrientationToDegress(int exifOrientation) {
-        if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
-            return 90;
-        } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {
-            return 180;
-        } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {
-            return 270;
-        }
-        return 0;
-    }
-
-    private Bitmap rotate(Bitmap bitmap, float degree) {
-        Matrix matrix = new Matrix();
-        matrix.postRotate(degree);
-        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-    }*/
 
 
     // stop watch에 사용될 핸들러
