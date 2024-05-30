@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="11dp"
-        android:text="산책 일지 작성"
+        android:text="산책 일지 수정"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -262,11 +262,11 @@
                     android:layout_marginTop="0dp" />
 
                 <Button
-                    android:id="@+id/btn_walk_add"
+                    android:id="@+id/btn_walk_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="10dp"
-                    android:text="작성완료"
+                    android:text="수정완료"
                     android:textColor="@color/white"
                     android:textStyle="bold" />
 

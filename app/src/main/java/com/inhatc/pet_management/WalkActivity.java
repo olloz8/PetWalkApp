@@ -424,6 +424,7 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View v) {
                 timeCountRunning = !timeCountRunning;
+                btnPetSelect.setEnabled(true);
                 // timeCountRunning 이 true 값일 때에만, 스톱워치 스레드가 작동한다,
                 // false로 바꿔줌으로 일시정지 효과를 볼 수 있다.
                 if(timeCountRunning){
@@ -858,19 +859,16 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-    // stop watch에 사용될 핸들러
     Handler handler = new Handler() {
         @Override
         public void handleMessage(@NonNull Message msg) {
-            //시간 포맷
-            //int mSec = msg.arg1 % 100;
+            // 시간
             int sec = (msg.arg1 / 100) % 60;
-            int min = (msg.arg1 /100) / 60;
-            int hour = (msg.arg1 / 100) / 360;
+            int min = (msg.arg1 / 100) / 60 % 60; //분 단위가 60을 넘지 않도록 %60 추가
+            int hour = (msg.arg1 / 100) / 3600;
 
-            String result = String.format("%02d:%02d:%02d", hour,min,sec);
+            String result = String.format("%02d:%02d:%02d", hour, min, sec);
             tvTime.setText(result);
-
         }
     };
 
@@ -895,6 +893,7 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         }
     }
+
     // 현위치의 GPS, 이전 위치의 GSP의 거리를 Meter 수치로 변경하여 UI에 나타낸다.
     @SuppressLint("HandlerLeak")
     Handler getMeterUpdateHandler = new Handler() {

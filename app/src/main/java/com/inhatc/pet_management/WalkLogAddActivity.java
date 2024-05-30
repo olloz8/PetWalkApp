@@ -112,8 +112,8 @@ public class WalkLogAddActivity extends AppCompatActivity {
         String strMemo = mEtMemo.getText().toString();
         String currentUserEmail = mFirebaseAuth.getCurrentUser().getEmail();
 
-        String mapId = mDatabaseRef.child("WalkLogAccount").push().getKey();
-        DatabaseReference walkLogRef = mDatabaseRef.child("WalkLogAccount").child(mapId);
+        String mapId = mDatabaseRef.child("WalkAccount").push().getKey();
+        DatabaseReference walkLogRef = mDatabaseRef.child("WalkAccount").child(mapId);
 
         walkLogRef.child("date").setValue(strDate);
         walkLogRef.child("name").setValue(strName);
@@ -128,10 +128,10 @@ public class WalkLogAddActivity extends AppCompatActivity {
 
     private void uploadImageToFirebaseStorage(String mapId) {
         if (mImageUri != null) {
-            StorageReference imageRef = mFirebaseStorage.getReference().child("WalkLogAccount/" + mapId + "/image.jpg");
+            StorageReference imageRef = mFirebaseStorage.getReference().child("WalkAccount/" + mapId + "/image.jpg");
             imageRef.putFile(mImageUri)
                     .addOnSuccessListener(taskSnapshot -> imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                        mDatabaseRef.child("WalkLogAccount").child(mapId).child("imgUrl").setValue(uri.toString());
+                        mDatabaseRef.child("WalkAccount").child(mapId).child("imgUrl").setValue(uri.toString());
                         Toast.makeText(WalkLogAddActivity.this, "산책 일지가 추가되었습니다.", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(WalkLogAddActivity.this, MainActivity.class));
                     }))

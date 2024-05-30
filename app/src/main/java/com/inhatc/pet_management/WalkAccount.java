@@ -3,33 +3,36 @@ package com.inhatc.pet_management;
 import android.net.Uri;
 
 public class WalkAccount {
-
     private String emailId;
     private String name;
-    private String walkDate;
-    private String walkTime;
-    private String walkStep;
-    private String walkMemo;
-    private String walkMeter;
-    private String walkImageUri;
-
+    private String date;
+    private String time;
+    private String stepNumber;
+    private String memo;
+    private String meter;
+    private String imgUrl;
+    private String key;
 
     public WalkAccount() {
-
     }
 
-
-    public WalkAccount(String emailId, String name, String date, String time, String step, String meter, String memo, String uri) {
-        this.emailId = emailId;
+    public WalkAccount(String date, String time, String stepNumber, String meter, String memo, String name, String imgUrl) {
+        this.date = date;
+        this.time = time;
+        this.stepNumber = stepNumber;
+        this.meter = meter;
+        this.memo = memo;
         this.name = name;
-        this.walkDate = date;
-        this.walkTime = time;
-        this.walkStep = step;
-        this.walkMeter = meter;
-        this.walkMemo = memo;
-        this.walkImageUri = uri;
+        this.imgUrl = imgUrl;
     }
 
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     public String getEmailId() {
         return emailId;
@@ -47,51 +50,51 @@ public class WalkAccount {
         this.name = name;
     }
 
-    public String getWalkDate() {
-        return walkDate;
+    public String getDate() {
+        return date;
     }
 
-    public void setWalkDate(String walkDate) {
-        this.walkDate = walkDate;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public String getWalkTime() {
-        return walkTime;
+    public String getTime() {
+        return time;
     }
 
-    public void setWalkTime(String walkTime) {
-        this.walkTime = walkTime;
+    public void setTime(String time) {
+        this.time = time;
     }
 
-    public String getWalkStep() {
-        return walkStep;
+    public String getStepNumber() {
+        return stepNumber;
     }
 
-    public void setWalkStep(String walkStep) {
-        this.walkStep = walkStep;
+    public void setStepNumber(String stepNumber) {
+        this.stepNumber = stepNumber;
     }
 
-    public String getWalkMemo() {
-        return walkMemo;
+    public String getMemo() {
+        return memo;
     }
 
-    public void setWalkMemo(String walkMemo) {
-        this.walkMemo = walkMemo;
+    public void setMemo(String memo) {
+        this.memo = memo;
     }
 
-    public String getWalkMeter() {
-        return walkMeter;
+    public String getMeter() {
+        return meter;
     }
 
-    public void setWalkMeter(String walkMeter) {
-        this.walkMeter = walkMeter;
+    public void setMeter(String meter) {
+        this.meter = meter;
     }
 
-    public String getWalkImageUri() {
-        return walkImageUri;
+    public String getImgUrl() {
+        return imgUrl;
     }
 
-    public void setWalkImageUri(String walkImageUri) {
-        this.walkImageUri = walkImageUri;
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 }
