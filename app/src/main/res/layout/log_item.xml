@@ -55,13 +55,10 @@
 
 
                 <TextView
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
                     android:text="- 펫 :  "
                     android:textColor="@color/black" />
-
 
                 <TextView
                     android:id="@+id/text_pet_name"
@@ -69,7 +66,7 @@
                     android:layout_height="wrap_content"
                     android:text="텍스트 표시"
                     android:textColor="@color/black"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_marginLeft="8dp"/>
 
                 <View
                     android:layout_width="0dp"

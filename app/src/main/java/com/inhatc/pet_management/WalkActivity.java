@@ -483,6 +483,7 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onSnapshotReady(Bitmap bitmap) {
                 try {
+
                     // 파일 저장 로직
                     File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "map_snapshot.png");
                     FileOutputStream fos = new FileOutputStream(file);

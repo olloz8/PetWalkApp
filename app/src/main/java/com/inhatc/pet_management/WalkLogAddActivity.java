@@ -83,6 +83,7 @@ public class WalkLogAddActivity extends AppCompatActivity {
             mImageUri = Uri.fromFile(new File(imagePath));
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
             if (bitmap != null) {
+
                 walk_image.setImageBitmap(bitmap);
             } else {
                 Toast.makeText(this, "지도 이미지를 불러오는 데 실패했습니다.", Toast.LENGTH_SHORT).show();
