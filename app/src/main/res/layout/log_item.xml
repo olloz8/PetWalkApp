@@ -32,7 +32,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Date: "
+                    android:text="Date : "
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -53,13 +53,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
+
                 <TextView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="펫 :  "
-                    android:textColor="@color/black"
-                    android:layout_marginLeft="50dp"/>
+                    android:layout_marginLeft="50dp"
+                    android:text="- 펫 :  "
+                    android:textColor="@color/black" />
+
 
                 <TextView
                     android:id="@+id/text_pet_name"
@@ -69,12 +71,17 @@
                     android:textColor="@color/black"
                     android:layout_marginLeft="10dp"/>
 
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="50dp"
                     android:textColor="@color/black"
-                    android:text="- 이동 시간: " />
+                    android:text="- 이동 시간 : " />
 
                 <TextView
                     android:id="@+id/text_walk_time"
@@ -95,7 +102,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="- 이동 거리: "
+                    android:text="- 이동 거리 : "
                     android:textColor="@color/black"/>
 
                 <TextView
@@ -111,13 +118,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:text="M" />
+                    android:text="m" />
 
                 <TextView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="- 걸음수: "
+                    android:text="- 걸음수 : "
                     android:textColor="@color/black"
                     android:layout_marginLeft="50dp"/>
 
@@ -138,7 +145,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="- 메모: "
+                    android:text="- 메모 : "
                     android:textColor="@color/black"/>
 
                 <TextView

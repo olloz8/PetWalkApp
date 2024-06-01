@@ -7,34 +7,31 @@
     android:background="#ffffff"
     tools:context=".WalkLogActivity">
 
-    <ImageView
-        android:id="@+id/btn_back"
-        android:layout_width="55dp"
-        android:layout_height="48dp"
-        app:srcCompat="@drawable/ic_left"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txt_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text=""
+        android:gravity="center"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:text=""
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btn_back"
-        tools:layout_editor_absoluteY="11dp"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="11dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txt_name"
+        app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/log_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
