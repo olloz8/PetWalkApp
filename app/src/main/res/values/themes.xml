@@ -4,8 +4,11 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowFullscreen">true</item>
+        <!-- <item name="android:windowFullscreen">true</item> -->
+        <item name="android:statusBarColor">@color/black</item>
     </style>
+
+    <style name="Theme.MaterialExam" parent="Theme.MaterialComponents.Light.DarkActionBar"/>
 
     <style name="Theme.Pet_management" parent="Base.Theme.Pet_management" />
 

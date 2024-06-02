@@ -141,7 +141,7 @@ public class PetInfoActivity extends AppCompatActivity {
                 // 권한이 허용된 경우 갤러리 열기
                 openGallery();
             } else {
-                Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
             }
         }
     }
