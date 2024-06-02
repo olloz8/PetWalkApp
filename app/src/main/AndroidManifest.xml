@@ -22,6 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Pet_management"
         tools:targetApi="31">
+
         <activity
             android:name=".WalkLogAddActivity"
             android:exported="false" />
