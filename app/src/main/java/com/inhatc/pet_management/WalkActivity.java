@@ -122,6 +122,8 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
     double maximumRadius = 0.0;
     double distance = 0.0;
     ArrayList<Polyline> polylines = new ArrayList<Polyline>();
+    // 전체 경로를 저장할 리스트
+    private List<LatLng> pathPoints = new ArrayList<>();
 
     //SupportMapFragment supportMapFragment;
 
@@ -187,7 +189,7 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         }
 
-        verifyStoragePermissions(this);
+ /*       verifyStoragePermissions(this);*/
 
         mLayout = findViewById(R.id.layout_walk);
 
@@ -451,7 +453,7 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
-    public static void verifyStoragePermissions(Activity activity) {
+/*    public static void verifyStoragePermissions(Activity activity) {
         // Check if we have write permission
         int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
@@ -463,7 +465,7 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
                     REQUEST_EXTERNAL_STORAGE
             );
         }
-    }
+    }*/
 
     // 툴바 메뉴 클릭시 이벤트 (프로필 추가, 뒤로가기)
 /*    @Override
@@ -568,46 +570,36 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
             super.onLocationResult(locationResult);
             // 현 위치의 위도와 경도를 구하여 리스트에 저장한다.
             List<Location> locationList = locationResult.getLocations();
-            if (locationList.size() >0) {
-                location = locationList.get(locationList.size() -1);
+            if (locationList.size() > 0) {
+                location = locationList.get(locationList.size() - 1);
 
                 previousPosition = currentPosition;
                 currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
 
-
                 // NullPoint 에러 방지
                 if (previousPosition == null) previousPosition = currentPosition;
 
-/*                if (previousPosition != currentPosition) {
-                    double radius = 3;
-                    double distance = SphericalUtil.computeDistanceBetween(currentPosition, addedMarker.getPosition());
-                    if ((distance < radius) && (!previousPosition.equals(currentPosition))) {
-                        strMeterUpload = Double.toString(distance);
-                    }
-                }*/
+                // 경로 리스트에 현재 위치 추가
+                pathPoints.add(currentPosition);
 
-                
                 // 현 위치와 이전 위치의 거리 차이를 구한다.
                 if (tracking == 1) {
                     radius = 0.05;
                     maximumRadius = 4.0;
                     distance = SphericalUtil.computeDistanceBetween(currentPosition, previousPosition);
                     // 현위치와 이전위치의 거리차이가 50m 보다 작으면 위치 정보의 차이를 구한다.
-                    // distance = 내가 움직인 거리
-                    // radius = ~m 이상 움직였을 때 의 기준
                     if ((distance > radius) && (!previousPosition.equals(currentPosition)) && (distance < maximumRadius)) {
                         Log.d("now distance ", String.valueOf(distance));
                         Log.d("previous Position ", String.valueOf(previousPosition));
                         Log.d("current Position ", String.valueOf(currentPosition));
-                        doubleDistance = Math.round(distance*100)/100.0;
+                        doubleDistance = Math.round(distance * 100) / 100.0;
                     }
                 }
                 // 갱신된 정보에 따라 마커가 이동한다.
                 String markerTitle = getCurrentAddress(currentPosition);
-                String markerSnippet = "위도: "+ String.valueOf(location.getLatitude())
-                        + "경도: "+String.valueOf(location.getLongitude());
+                String markerSnippet = "위도: " + String.valueOf(location.getLatitude()) + " 경도: " + String.valueOf(location.getLongitude());
 
-                Log.d(TAG, "onLocationResult : "+ markerSnippet);
+                Log.d(TAG, "onLocationResult : " + markerSnippet);
 
                 // 현재 위치로 마커 생성하고 이동
                 setCurrentLocation(location, markerTitle, markerSnippet);
@@ -617,11 +609,22 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     };
 
-    private void drawPath(){
-        //polyline을 그려주는 메소드
-        PolylineOptions options = new PolylineOptions().add(previousPosition).add(currentPosition).width(15).color(Color.BLACK).geodesic(true);
+    private void drawPath() {
+        // polyline을 그려주는 메소드
+        PolylineOptions options = new PolylineOptions()
+                .addAll(pathPoints) // 전체 경로 좌표를 추가
+                .width(15)
+                .color(Color.rgb(255, 165, 0))
+                .geodesic(true);
+
+        // 기존 폴리라인을 제거하고 새로운 폴리라인을 추가
+        if (!polylines.isEmpty()) {
+            for (Polyline polyline : polylines) {
+                polyline.remove();
+            }
+            polylines.clear();
+        }
         polylines.add(mMap.addPolyline(options));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startLatLng, 18));
     }
 
 

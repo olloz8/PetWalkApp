@@ -57,7 +57,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="- 펫 :  "
+                    android:text="- 산책 한 펫 이름 :  "
                     android:textColor="@color/black" />
 
                 <TextView
@@ -68,10 +68,6 @@
                     android:textColor="@color/black"
                     android:layout_marginLeft="8dp"/>
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -99,7 +95,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="- 이동 거리 : "
+                    android:text="- 이동 거리(m) : "
                     android:textColor="@color/black"/>
 
                 <TextView
@@ -110,12 +106,7 @@
                     android:textColor="@color/black"
                     android:text="텍스트 표시" />
 
-                <TextView
-                    android:layout_marginLeft="20dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:text="m" />
+
 
                 <TextView
 
