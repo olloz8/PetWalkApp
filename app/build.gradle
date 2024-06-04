@@ -66,4 +66,6 @@ dependencies {
     implementation 'io.github.ParkSangGwon:tedpermission-normal:3.3.0'
     implementation "com.airbnb.android:lottie:3.4.0"
     implementation 'com.google.maps.android:android-maps-utils:0.5'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.2'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.2'
 }
