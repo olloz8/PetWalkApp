@@ -34,13 +34,11 @@ public class SettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance(); // mAuth 변수 초기화
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         txt_name = findViewById(R.id.txt_name);
         Button logoutButton = findViewById(R.id.logout);
-
-
 
         if (currentUser != null) {
             String userId = currentUser.getUid();
@@ -87,7 +85,7 @@ public class SettingActivity extends AppCompatActivity {
                 .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mAuth.signOut();
+                        mAuth.signOut(); // mAuth 사용
                         Toast.makeText(SettingActivity.this, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(SettingActivity.this, LoginActivity.class));
                         finish();
@@ -104,7 +102,7 @@ public class SettingActivity extends AppCompatActivity {
                 .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        FirebaseUser user = mAuth.getCurrentUser();
+                        FirebaseUser user = mAuth.getCurrentUser(); // mAuth 사용
                         if (user != null) {
                             user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override

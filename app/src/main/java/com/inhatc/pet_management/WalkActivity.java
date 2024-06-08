@@ -163,19 +163,9 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
     ActionBar actionBar;
     Menu action;
 
-    //    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // 툴바 설정
-//        toolbar = findViewById(R.id.toolbar_walk);
-//        setSupportActionBar(toolbar);
-//        actionBar = getSupportActionBar();
-//        actionBar.setDisplayShowCustomEnabled(true);
-//        actionBar.setDisplayShowTitleEnabled(false);
-//        actionBar.setDisplayHomeAsUpEnabled(true);
-//        actionBar.setHomeAsUpIndicator(R.drawable.ic_left_arrow);
 
         // 레이아웃이 변할때마다 플레그를 세팅한다.
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -460,32 +450,6 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
-/*    public static void verifyStoragePermissions(Activity activity) {
-        // Check if we have write permission
-        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(
-                    activity,
-                    PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE
-            );
-        }
-    }*/
-
-    // 툴바 메뉴 클릭시 이벤트 (프로필 추가, 뒤로가기)
-/*    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            // 툴바 홈 버튼 눌렀을 때의 이벤트
-            case android.R.id.home:
-                finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
-
     // 구글 맵 캡처 기능 추가
     private void captureMapSnapshot() {
         mMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
@@ -635,28 +599,6 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-
-/*    private void captureMapScreen() {
-        GoogleMap.SnapshotReadyCallback callback = new GoogleMap.SnapshotReadyCallback() {
-            @Override
-            public void onSnapshotReady(Bitmap snapshot) {
-                try {
-                    // 저장할 파일 경로 설정
-                    File cacheDir = getCacheDir();
-                    File imagePath = new File(cacheDir, "map_capture.png");
-                    FileOutputStream fos = new FileOutputStream(imagePath);
-                    snapshot.compress(Bitmap.CompressFormat.PNG, 90, fos);
-                    fos.close();
-
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-
-        mMap.snapshot(callback);
-    }*/
 
     private void startLocationUpdates() {
         if (!checkLocationServicesStatus()) {
@@ -974,18 +916,6 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         }
     }
-
-//    @Override
-//    public void onSensorChanged(SensorEvent event) {
-//        if (event.sensor.getType() == Sensor.TYPE_STEP_DETECTOR && timeCountRunning) {
-//            if (event.values[0] == 1.0f) {
-//                mStepDetector++;
-//                tvStepCounter.setText(String.valueOf(mStepDetector));
-//            }
-//        }
-//    }
-
-
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
