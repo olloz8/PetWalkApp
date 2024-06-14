@@ -8,27 +8,30 @@
     android:background="#ffffff"
     tools:context=".PetInfoActivity">
 
-    <ImageView
-        android:id="@+id/btn_back"
-        android:layout_width="55dp"
-        android:layout_height="48dp"
-        app:srcCompat="@drawable/ic_left"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="-2dp"
-        tools:layout_editor_absoluteY="0dp" />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:background="@color/white"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/txt_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="11dp"
+        android:layout_marginTop="16dp"
         android:text="펫 등록하기"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <Button
         android:id="@+id/pet_add"
@@ -48,7 +51,7 @@
         android:id="@+id/pet_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="316dp"
+        android:layout_marginTop="272dp"
         android:ems="10"
         android:hint="이름"
         android:inputType="text"
@@ -74,7 +77,7 @@
         android:id="@+id/pet_image"
         android:layout_width="140dp"
         android:layout_height="140dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="50dp"
         android:src="@drawable/ic_m5"
         app:civ_border_width="1dp"
         app:civ_circle_background_color="#FF000000"
@@ -83,7 +86,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_name"
-        app:layout_constraintVertical_bias="0.358" />
+        app:layout_constraintVertical_bias="0.071" />
 
     <EditText
         android:id="@+id/pet_species"

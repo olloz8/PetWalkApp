@@ -21,6 +21,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
+import androidx.appcompat.widget.Toolbar;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
@@ -38,10 +40,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -160,7 +160,6 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
     private boolean petSelected = false;
 
     Toolbar toolbar;
-    ActionBar actionBar;
     Menu action;
 
     @Override
@@ -170,6 +169,12 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
         // 레이아웃이 변할때마다 플레그를 세팅한다.
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_walk);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("");
+
 
         // API 레벨 23 이상인 경우
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -924,5 +929,17 @@ public class WalkActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onClick(View v) {
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -8,13 +8,17 @@
     android:background="#FFFFFF"
     tools:context=".RegisterActivity">
 
-    <ImageView
-        android:id="@+id/btn_back"
-        android:layout_width="55dp"
-        android:layout_height="48dp"
-        app:srcCompat="@drawable/ic_left"
-        tools:layout_editor_absoluteX="-2dp"
-        tools:layout_editor_absoluteY="0dp" />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginLeft="1dp"
+        android:background="@color/white"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView"
@@ -31,7 +35,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/toolbar" />
 
     <EditText
         android:id="@+id/et_birth"
@@ -82,12 +86,12 @@
         android:id="@+id/et_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="100dp"
         android:ems="10"
-        android:hint="이메일"
+        android:hint="이메일(abc@gmail.com)"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.028"
         app:layout_constraintStart_toStartOf="@+id/et_pass"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -95,9 +99,9 @@
         android:id="@+id/btn_register"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:text="회원가입"
+        android:layout_marginTop="116dp"
         android:background="@drawable/button_background2"
+        android:text="회원가입"
         android:textColor="@color/yellow"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/et_birth"
