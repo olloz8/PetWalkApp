@@ -13,5 +13,5 @@
 ## 📌결과물
 1. 시작 화면
 <br>
-[image](https://github.com/user-attachments/assets/d26a67e4-fa3f-4bf9-ab5e-69f900aebe3c)
+<https://github.com/user-attachments/assets/d26a67e4-fa3f-4bf9-ab5e-69f900aebe3c>
 
